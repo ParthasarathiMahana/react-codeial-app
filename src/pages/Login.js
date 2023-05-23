@@ -1,12 +1,14 @@
 import styles from '../styles/login.module.css';
 import {useState} from 'react';
 import toast from 'react-hot-toast';
-import {login} from '../api'
+import {useAuth} from '../hooks';
+
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loggingIn, setloggingIn] = useState(false);
+    const auth = useAuth();
 
     const handleSubmit =async (e)=>{
         e.preventDefault();
@@ -23,7 +25,7 @@ const Login = () => {
 
         console.log("EMAIL:",email, "PASSWORD:",password)
 
-        const response = await login(email, password);
+        const response = await auth.login(email, password);
 
         if(response.success){
             toast.success('successfully logged in',{

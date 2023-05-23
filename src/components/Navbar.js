@@ -1,7 +1,9 @@
 import styles from '../styles/navbar.module.css';
 import { Link } from 'react-router-dom';
+import {useAuth} from '../hooks';
 
 const Navbar = () => {
+    const auth = useAuth()
     return(
         <div className={styles.nav}>
             <div className={styles.leftDiv}>
@@ -11,24 +13,33 @@ const Navbar = () => {
             </div>
 
             <div className={styles.rightNav}>
-                <div className={styles.user}>
+               {auth.user && <div className={styles.user}>
                     <Link to="/">
                         <img src="https://www.svgrepo.com/show/416634/user-profile-avatar.svg" alt="" className={styles.userDp}/>
                     </Link>
-                    <span>Partha</span>
-                </div>
+                    <span>{auth.user.name}</span>
+                </div>}
 
                 <div className={styles.navLinks}>
                     <ul>
-                        <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                        <li>
-                            <Link to="">Logout</Link>
-                        </li>
-                        <li>
-                            <Link to="">Register</Link>
-                        </li>
+                    {
+                        auth.user ? 
+                            (<>
+                            <li>
+                                <Link to="">Logout</Link>
+                            </li>
+                            </>):
+                            (<>
+                            <li>
+                                <Link to="/login">Login</Link>
+                            </li>
+                            
+                            <li>
+                                <Link to="/signup">Register</Link>
+                            </li>
+                            </>)
+                    }
+                        
                     </ul>
                 </div>
             </div>
