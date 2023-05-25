@@ -2,6 +2,7 @@ import styles from '../styles/login.module.css';
 import {useState} from 'react';
 import toast from 'react-hot-toast';
 import {useAuth} from '../hooks';
+import { Navigate } from 'react-router-dom';
 
 
 const Login = () => {
@@ -42,6 +43,10 @@ const Login = () => {
         setloggingIn(false)
     }
     
+    if(auth.user){
+      return <Navigate to='/' /> 
+    }
+
   return (
     <form className={styles.loginForm} onSubmit={handleSubmit}>
       <span className={styles.loginSignupHeader}>Log In</span>

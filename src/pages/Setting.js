@@ -1,6 +1,8 @@
 import styles from '../styles/settings.module.css';
 import { useState } from 'react';
 import  {useAuth} from '../hooks';
+import toast from 'react-hot-toast';
+
 
 const Setting = () =>{
     const auth = useAuth();
@@ -8,15 +10,52 @@ const Setting = () =>{
     const [name, setName] = useState(auth.user?.name ? auth.user.name:''); 
     const [password, setPassword] = useState(''); 
     const [confirmPassword, setConfirmPassword] = useState(''); 
-    const [savingForm, setSavingForm] = useState(false); 
+    const [savingForm, setSavingForm] = useState(false);
+    
+    const clearForm = () =>{
+        setPassword("");
+        setConfirmPassword("");
+    }
 
-    const updateProfile=()=>{};
+    const updateProfile=async()=>{
+        setSavingForm(true);
+        
+        let error = false;
+        if(!name || !password || !confirmPassword){
+            toast.error("Please fill all the fields.")
+            error = true;
+        }
+
+        if(password !== confirmPassword){
+            toast.error("Password does not match.")
+            error = true;
+        }
+
+        if(error){
+            return setSavingForm(false);
+        }
+
+        const response = await auth.updateUser(auth.user._id, name, password, confirmPassword);
+
+        if(response.success){
+            setEditMode(false);
+            setSavingForm(false);
+            clearForm();
+
+            return toast.success("user updated successfully!!!")
+        }
+        else{
+            return toast.error("Error while updating the user.")
+        }
+
+        setSavingForm(false);
+    };
 
 
     return(
         <div className={styles.settings}>
         <div className={styles.imgContainer}>
-            <img src='' alt=''/>
+            <img src='https://www.svgrepo.com/show/416634/user-profile-avatar.svg' alt=''/>
         </div>
 
         <div className={styles.field}>
@@ -45,7 +84,7 @@ const Setting = () =>{
 
         <div className={styles.btnGrp}>
             {editMode?<>
-                <button className={`button ${styles.editBtn}`} onClick={updateProfile }>
+                <button className={`button ${styles.editBtn}`} onClick={updateProfile } disabled={savingForm}>
                     {savingForm?'Saving From...':'Save From'}
                 </button>
             <button className={`button ${styles.editBtn}`} onClick={(e)=>setEditMode(false)}>Go Back</button>
