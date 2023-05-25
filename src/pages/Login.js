@@ -51,7 +51,7 @@ const Login = () => {
       </div>
 
       <div className={styles.field}>
-        <input type="password" placeholder="Paasword" onChange={(e)=>{setPassword(e.target.value)}} />
+        <input type="password" placeholder="Password" onChange={(e)=>{setPassword(e.target.value)}} />
       </div>
 
       <div className={styles.field}>

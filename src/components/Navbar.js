@@ -14,7 +14,7 @@ const Navbar = () => {
 
             <div className={styles.rightNav}>
                {auth.user && <div className={styles.user}>
-                    <Link to="/">
+                    <Link to="/setting">
                         <img src="https://www.svgrepo.com/show/416634/user-profile-avatar.svg" alt="" className={styles.userDp}/>
                     </Link>
                     <span>{auth.user.name}</span>
@@ -25,8 +25,8 @@ const Navbar = () => {
                     {
                         auth.user ? 
                             (<>
-                            <li>
-                                <Link to="">Logout</Link>
+                            <li onClick={auth.logout}>
+                                Logout
                             </li>
                             </>):
                             (<>
