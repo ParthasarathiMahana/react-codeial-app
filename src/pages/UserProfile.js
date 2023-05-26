@@ -1,11 +1,14 @@
 import styles from '../styles/settings.module.css';
+import { useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import  {useAuth} from '../hooks';
 import toast from 'react-hot-toast';
 
 
-const userProfile = () =>{
-    const user = {};
+const UserProfile = () =>{
+    const location = useLocation();
+    // console.log(location);
+    const {user={}}  = location.state;
 
     return(
         <div className={styles.settings}>
@@ -15,12 +18,12 @@ const userProfile = () =>{
 
         <div className={styles.field}>
             <div className={styles.fieldName}>Email</div>
-            <div className={styles.fieldValue}>{user?.email}</div>
+            <div className={styles.fieldValue}>{user.email}</div>
         </div>
 
         <div className={styles.field}>
             <div className={styles.fieldName}>Name</div>
-            <div className={styles.fieldValue}>{user?.name}</div>
+            <div className={styles.fieldValue}>{user.name}</div>
         </div>
 
         <div className={styles.btnGrp}>
@@ -31,4 +34,4 @@ const userProfile = () =>{
     );
 }
 
-export default userProfile;
+export default UserProfile;
