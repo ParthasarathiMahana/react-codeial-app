@@ -4,12 +4,22 @@ import Navbar from "./Navbar";
 import {
   BrowserRouter as Router,
   Routes,
-  Route
+  Route,
+  Navigate
 } from "react-router-dom";
 import Login from "../pages/Login";
 import { useAuth } from "../hooks";
 import Signup from '../pages/SignUp';
-import {Setting} from '../pages';
+import {Setting, UserProfile} from '../pages';
+
+
+
+function PrivateRoute({children, ...rest}){
+  const auth = useAuth();
+
+  return auth.user?children:<Navigate to ="/login"/>
+  
+}
 
 const Page404 =() =>{
   return <h1>404: Error Finding the requested page.</h1>
@@ -30,7 +40,8 @@ function App() {
           <Route path="/" element={<Home/>} />
           <Route path="/signup" element={<Signup/>} />
           <Route path="/login" element={<Login/>} />
-          <Route path="/setting" element={<Setting/>} />
+          <Route path="/setting" element={<PrivateRoute><Setting/></PrivateRoute>} />
+          <Route path="/user/:userId" element={<PrivateRoute><UserProfile/></PrivateRoute>} />
           <Route path="*" element={<Page404/>}/>
         </Routes>
       </Router>
