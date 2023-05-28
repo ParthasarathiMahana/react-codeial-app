@@ -73,3 +73,9 @@ export const register = async (name, email, password, confirmPassword) => {
       body: { id: userId, name, password, confirm_password: confirmPassword },
     });
   };
+
+export const fetchUserProfile = (userId)=>{
+    return customFetch(API_URLS.userInfo(userId),{
+        method: 'GET'
+    });
+};

@@ -10,7 +10,8 @@ import {
 import Login from "../pages/Login";
 import { useAuth } from "../hooks";
 import Signup from '../pages/SignUp';
-import {Setting, UserProfile} from '../pages';
+import Setting from '../pages/Setting';
+import UserProfile from '../pages/UserProfile'
 
 
 
