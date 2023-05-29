@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import  {useAuth} from '../hooks';
 import toast from 'react-hot-toast';
 import Loader from '../components/Loader';
-import {addFriend, fetchUserProfile} from '../api/index';
+import {addFriend, fetchUserProfile, removeFriend} from '../api/index';
 
 
 
@@ -57,7 +57,22 @@ const UserProfile = () =>{
         return false;
     }
 
-    const handleRemoveFriendClick = ()=>{};
+    const handleRemoveFriendClick = async()=>{
+        setRequstInProgress(true);
+
+        const response = await removeFriend(userId);
+
+        if(response.success){
+            const friendship = auth.user.friendship.filter(friend => friend.to_user._id === userId);
+
+            auth.updateUserFriends(false, friendship[0]);
+            toast.success("friend removed successfully.")
+        }else{
+            toast.error(response.message);
+        }
+        
+        setRequstInProgress(false);
+    };
 
     const handleAddFriendClick = async()=>{
         setRequstInProgress(true);
