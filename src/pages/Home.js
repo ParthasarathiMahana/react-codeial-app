@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
 import styles from '../styles/home.module.css';
 import Comment from '../components/Comments';
+import { FriendsList } from '../components';
 import { useState, useEffect } from 'react';
 import { getPosts } from '../api';
 import Loader from '../components/Loader';
 import {Link} from 'react-router-dom';
+import { useAuth } from '../hooks';
 
 export const Home = () => {
 
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const auth = useAuth();
 
   useEffect(()=>{
     const fetchPosts = async()=>{
@@ -29,7 +32,8 @@ export const Home = () => {
   }
 
   return (
-    <div className={styles.postsList}>
+    <div className={styles.home}>
+      <div className={styles.postsList}>
       {posts.map((post)=>(
         <div className={styles.postWrapper} key={`post-${post._id}`}>
         <div className={styles.postHeader}>
@@ -76,7 +80,8 @@ export const Home = () => {
         </div>
       </div>
       ))}
-      
+    </div>
+    {auth.user && <FriendsList />}
     </div>
   );
 };

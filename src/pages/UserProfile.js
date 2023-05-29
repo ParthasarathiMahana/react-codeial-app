@@ -63,7 +63,7 @@ const UserProfile = () =>{
         const response = await removeFriend(userId);
 
         if(response.success){
-            const friendship = auth.user.friendship.filter(friend => friend.to_user._id === userId);
+            const friendship = auth.user.friendship.filter((friend) => friend.to_user._id === userId);
 
             auth.updateUserFriends(false, friendship[0]);
             toast.success("friend removed successfully.")
