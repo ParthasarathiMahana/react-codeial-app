@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import  {useAuth} from '../hooks';
 import toast from 'react-hot-toast';
 import Loader from '../components/Loader';
-import {fetchUserProfile} from '../api/index';
+import {addFriend, fetchUserProfile} from '../api/index';
 
 
 
@@ -16,6 +16,7 @@ const UserProfile = () =>{
 
     const [user, setUser] = useState({});
     const[loading, setLoading] = useState(true);
+    const[requstInProgress, setRequstInProgress] = useState(false);
     const {userId} = useParams();
     const navigate = useNavigate();
     const auth = useAuth();
@@ -56,6 +57,25 @@ const UserProfile = () =>{
         return false;
     }
 
+    const handleRemoveFriendClick = ()=>{};
+
+    const handleAddFriendClick = async()=>{
+        setRequstInProgress(true);
+
+        const response = await addFriend(userId);
+
+        if(response.success){
+            const {friendship} = response.data;
+
+            auth.updateUserFriends(true, friendship);
+            toast.success("friend added successfully.")
+        }else{
+            toast.error(response.message);
+        }
+        
+        setRequstInProgress(false);
+    };
+
     return(
         <div className={styles.settings}>
         <div className={styles.imgContainer}>
@@ -74,8 +94,11 @@ const UserProfile = () =>{
 
         <div className={styles.btnGrp}>
             {checkIfUserIsAFriend()?
-            <button className={`button ${styles.saveBtn}`}>Add Friend</button>:
-            <button className={`button ${styles.saveBtn}`}>Add Friend</button>
+            <button className={`button ${styles.saveBtn}`} onClick={handleRemoveFriendClick}>
+                {requstInProgress?'Removing Friend...':'Remove Friend'}
+            </button>:
+            <button className={`button ${styles.saveBtn}`} onClick={handleAddFriendClick} disabled={requstInProgress}>
+                {requstInProgress?'Adding Friend...':'Add Friend'}</button>
         }
         </div>
     </div>
