@@ -5,7 +5,9 @@ import { useEffect, useState } from 'react';
 import  {useAuth} from '../hooks';
 import toast from 'react-hot-toast';
 import Loader from '../components/Loader';
-import {addFriend, fetchUserProfile, removeFriend} from '../api/index';
+import {addFriend} from '../api/index';
+import {fetchUserProfile} from '../api/index';
+import {removeFriend} from '../api/index';
 
 
 

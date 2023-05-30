@@ -1,4 +1,5 @@
-import {LOCALSTORAGE_TOKEN_KEY, getFormBody} from '../utils';
+import {LOCALSTORAGE_TOKEN_KEY} from '../utils';
+import {getFormBody} from '../utils';
 import {API_URLS} from '../utils';
 
 const customFetch = async(url, {body, ...customConfig}) => {
@@ -96,4 +97,4 @@ export const removeFriend = (userId)=>{
     return customFetch(API_URLS.removeFriend(userId),{
         method: 'POST'
     });
-};
+}
